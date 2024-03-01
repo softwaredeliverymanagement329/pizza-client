@@ -12,21 +12,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-
       - name: Build
         run: npm ci && npm run build
-
-  test:
-    name: Test client
-    needs: build
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
       - name: Run Playwright tests
