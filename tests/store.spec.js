@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   let serverStoreJson = [
-    { name: 'nyc', date: '2028-05-20' },
+    { name: 'nyc', date: '2029-05-20' },
     { name: 'san diego', date: '2032-10-31' },
   ];
 
