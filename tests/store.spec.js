@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('http://localhost:5173/');
 });
 
-test('testAddStoreButton', async ({ page }) => {
+test('addStoreButton', async ({ page }) => {
   await expect(page).toHaveTitle('DevOps Demo');
 
   await page.locator('css=input').fill('provo');
