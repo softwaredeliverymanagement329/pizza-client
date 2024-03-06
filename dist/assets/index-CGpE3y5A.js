@@ -1,0 +1,15 @@
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&n(s)}).observe(document,{childList:!0,subtree:!0});function r(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function n(e){if(e.ep)return;e.ep=!0;const o=r(e);fetch(e.href,o)}})();class l{constructor(){this.useNetwork=!1,this.localStores={store:[]}}getStores(t){this.useNetwork?this.fetchRequest(t,"GET","/api/store"):t(this.localStores)}createStore(t,r){this.useNetwork?this.fetchRequest(r,"POST",`/api/store/${t}`):(this.localStores.store.push({name:t,date:new Date().toLocaleString()}),r(this.localStores))}async fetchRequest(t,r,n,e={},o=null){o&&(e={...e,"Content-Type":"application/json"});const s={method:r,headers:e,body:o?JSON.stringify(o):null},i=await fetch(n,s);if(!i.ok)throw new Error(`Service request failed: ${i.status}`);if(t){const d=await i.json();t(d)}}}const a=new l;class u extends HTMLElement{constructor(){self=super(),this.createAddInput(),this.createAddStoreButton(),this.createStoreTable(),a.getStores(t=>this.drawTable(t))}createAddInput(){this.addStoreInput=self.appendChild(document.createElement("input")),this.addStoreInput.setAttribute("type","text"),this.addStoreInput.setAttribute("placeholder","store name")}createAddStoreButton(){const t=self.appendChild(document.createElement("button"));t.textContent="Add",t.addEventListener("click",r=>{const n=this.addStoreInput.value;n!==""&&(this.addStoreInput.value="",a.createStore(n,e=>this.drawTable(e)))})}createStoreTable(){const t=self.appendChild(document.createElement("table")),r=t.appendChild(document.createElement("tr")),n=r.appendChild(document.createElement("th"));n.innerText="Name";const e=r.appendChild(document.createElement("th"));e.innerText="Date",this.tableBody=t.appendChild(document.createElement("tbody"))}drawTable(t){t!=null&&t.store.length?(this.tableBody.innerHTML="",t.store.forEach(r=>{const n=document.createElement("tr"),e=document.createElement("td");e.innerText=r.name;const o=document.createElement("td");o.innerText=r.date,n.appendChild(e),n.appendChild(o),this.tableBody.appendChild(n)})):this.tableBody.innerHTML='<tr><td colspan="2">No stores defined</td></tr>'}}customElements.define("action-store",u);const p="/github.svg";document.querySelector("#app").innerHTML=`
+  <div>
+    <a href="https://github.com/softwaredeliverymanagement329/actions-demo" target="_blank">
+      <img src="${p}" class="logo" alt="GitHub logo" />
+    </a>
+    <h1>DevOps Demo</h1>
+    <action-store></action-store>
+    <p>
+      <a href="https://docs.github.com/en/actions/quickstart" target="_blank">
+        GitHub Actions Quickstart
+      </a>
+    </p>
+  </div>
+`;
+//# sourceMappingURL=index-CGpE3y5A.js.map

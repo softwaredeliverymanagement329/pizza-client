@@ -22,3 +22,26 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run Playwright tests
         run: npm run test:coverage
+
+      - name: Checkout production distribution repo
+        uses: actions/checkout@v4
+        with:
+          repository: softwaredeliverymanagement329/softwaredeliverymanagement329.github.io
+          path: production
+          ref: 'main'
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ secrets.CI_TOKEN }}
+
+      - name: Push to the public distribution repo
+        shell: bash
+        working-directory: 'production'
+        run: |
+          ls -la ..
+          cp -r ../dist/* .
+          date > deployedDate.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Continuous deployment release"
+          git push
