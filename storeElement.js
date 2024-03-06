@@ -1,4 +1,5 @@
 import './storeElement.css';
+import { storeService } from './storeService.js';
 
 class StoreElement extends HTMLElement {
   constructor() {
@@ -7,7 +8,7 @@ class StoreElement extends HTMLElement {
     this.createAddInput();
     this.createAddStoreButton();
     this.createStoreTable();
-    this.getStores();
+    storeService.getStores((data) => this.drawTable(data));
   }
 
   createAddInput() {
@@ -20,18 +21,11 @@ class StoreElement extends HTMLElement {
     const addBtn = self.appendChild(document.createElement('button'));
     addBtn.textContent = 'Add';
     addBtn.addEventListener('click', (e) => {
-      console.log('button pressed');
       const storeName = this.addStoreInput.value;
-      this.addStoreInput.value = '';
-      fetch(`/api/store/${storeName}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({}),
-      })
-        .then((res) => res.json())
-        .then((data) => this.drawTable(data));
+      if (storeName !== '') {
+        this.addStoreInput.value = '';
+        storeService.createStore(storeName, (data) => this.drawTable(data));
+      }
     });
   }
 
@@ -47,15 +41,8 @@ class StoreElement extends HTMLElement {
     this.tableBody = storeTable.appendChild(document.createElement('tbody'));
   }
 
-  getStores() {
-    fetch('/api/store')
-      .then((res) => res.json())
-      .then((data) => this.drawTable(data));
-  }
-
   drawTable(data) {
-    console.log('drawing table');
-    if (data.store.length) {
+    if (data?.store.length) {
       this.tableBody.innerHTML = '';
       data.store.forEach((s) => {
         const rowEl = document.createElement('tr');

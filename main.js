@@ -9,7 +9,7 @@ document.querySelector('#app').innerHTML = `
     </a>
     <h1>DevOps Demo</h1>
     <action-store></action-store>
-    <p class="read-the-docs">
+    <p>
       <a href="https://docs.github.com/en/actions/quickstart" target="_blank">
         GitHub Actions Quickstart
       </a>
