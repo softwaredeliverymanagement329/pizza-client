@@ -28,7 +28,9 @@ class StoreService {
   }
 
   readLocalStores() {
-    const store = localStorage.getItem('store') || `{"store": []}`;
+    const store =
+      localStorage.getItem('store') ||
+      `{"store": [{ "name": "Default Pizza Client localstorage", "date": "3/6/2024, 2:47:21 PM" }]}`;
     return JSON.parse(store);
   }
 
