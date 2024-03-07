@@ -1,12 +1,18 @@
 class StoreService {
   constructor() {
     this.useNetwork = false;
+    this.lambdas = {
+      getStores: 'https://l4jzevaddlpr53lxtup5sy3ve40geiyy.lambda-url.us-east-1.on.aws/',
+    };
+
     this.localStores = { store: [] };
   }
 
   getStores(callback) {
     if (this.useNetwork) {
       this.fetchRequest(callback, 'GET', '/api/store');
+    } else if (this.lambdas.getStores) {
+      this.fetchRequest(callback, 'GET', this.lambdas.getStores);
     } else {
       callback(this.readLocalStores());
     }
