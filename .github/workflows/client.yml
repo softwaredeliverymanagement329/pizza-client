@@ -54,7 +54,6 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::464152414144:role/GitHubAction-CD
-      - name: List s3 bucket
         run: |
           date > deployedDate.txt
           aws s3 ls s3://test.leesjensen.com
