@@ -57,7 +57,5 @@ jobs:
       - name: Push to AWS S3
         run: |
           ls -la
-          ls -la dist
-          date > deployedDate.txt
           aws s3 ls s3://test.leesjensen.com
-          aws s3 cp deployedDate.txt s3://test.leesjensen.com
+          aws s3 cp dist s3://test.leesjensen.com --recursive
