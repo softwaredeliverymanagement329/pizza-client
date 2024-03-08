@@ -33,7 +33,7 @@ jobs:
           persist-credentials: true
           token: ${{ secrets.CI_TOKEN }}
 
-      - name: Push to the public distribution repo
+      - name: Push to GitHub Pages
         shell: bash
         working-directory: 'production'
         run: |
@@ -45,3 +45,12 @@ jobs:
           git add .
           git commit -m "Continuous deployment release"
           git push
+      - name: Push to AWS S3
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::464152414144:role/GitHubAction-CD
+      - name: List s3 bucket
+        run: |
+          aws s3 ls s3://test.leesjensen.com
