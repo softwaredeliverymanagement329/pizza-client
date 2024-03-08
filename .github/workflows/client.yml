@@ -5,46 +5,50 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: Build client
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-      - name: Build
-        run: npm ci && npm run build
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-      - name: Run Playwright tests
-        run: npm run test:coverage
+      # - name: Checkout repo
+      #   uses: actions/checkout@v4
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.x'
+      # - name: Build
+      #   run: npm ci && npm run build
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps chromium
+      # - name: Run Playwright tests
+      #   run: npm run test:coverage
 
-      - name: Checkout production distribution repo
-        uses: actions/checkout@v4
-        with:
-          repository: softwaredeliverymanagement329/softwaredeliverymanagement329.github.io
-          path: production
-          ref: 'main'
-          fetch-depth: 0
-          persist-credentials: true
-          token: ${{ secrets.CI_TOKEN }}
+      # - name: Checkout production distribution repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: softwaredeliverymanagement329/softwaredeliverymanagement329.github.io
+      #     path: production
+      #     ref: 'main'
+      #     fetch-depth: 0
+      #     persist-credentials: true
+      #     token: ${{ secrets.CI_TOKEN }}
 
-      - name: Push to GitHub Pages
-        shell: bash
-        working-directory: 'production'
-        run: |
-          ls -la ..
-          cp -r ../dist/* .
-          date > deployedDate.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Continuous deployment release"
-          git push
+      # - name: Push to GitHub Pages
+      #   shell: bash
+      #   working-directory: 'production'
+      #   run: |
+      #     ls -la ..
+      #     cp -r ../dist/* .
+      #     date > deployedDate.txt
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add .
+      #     git commit -m "Continuous deployment release"
+      #     git push
       - name: Push to AWS S3
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -52,5 +56,4 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::464152414144:role/GitHubAction-CD
       - name: List s3 bucket
-        run: |
-          aws s3 ls s3://test.leesjensen.com
+        run: aws s3 ls s3://test.leesjensen.com
