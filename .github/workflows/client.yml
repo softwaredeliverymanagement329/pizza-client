@@ -48,12 +48,13 @@ jobs:
       #     git add .
       #     git commit -m "Continuous deployment release"
       #     git push
-      - name: Push to AWS S3
+      - name: Create OIDC token to AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::464152414144:role/GitHubAction-CD
+      - name: Push to AWS S3
         run: |
           date > deployedDate.txt
           aws s3 ls s3://test.leesjensen.com
