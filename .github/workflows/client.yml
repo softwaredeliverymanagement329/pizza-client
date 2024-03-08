@@ -13,14 +13,14 @@ jobs:
     name: Build client
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout repo
-      #   uses: actions/checkout@v4
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20.x'
-      # - name: Build
-      #   run: npm ci && npm run build
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Build
+        run: npm ci && npm run build
       # - name: Install Playwright Browsers
       #   run: npx playwright install --with-deps chromium
       # - name: Run Playwright tests
@@ -56,6 +56,8 @@ jobs:
           role-to-assume: arn:aws:iam::464152414144:role/GitHubAction-CD
       - name: Push to AWS S3
         run: |
+          ls -la
+          ls -la dist
           date > deployedDate.txt
           aws s3 ls s3://test.leesjensen.com
           aws s3 cp deployedDate.txt s3://test.leesjensen.com
