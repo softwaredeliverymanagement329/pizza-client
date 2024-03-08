@@ -59,4 +59,4 @@ jobs:
         run: |
           date > deployedDate.txt
           aws s3 ls s3://test.leesjensen.com
-          a2s s3 cp deployedDate.txt s3://test.leesjensen.com
+          aws s3 cp deployedDate.txt s3://test.leesjensen.com
